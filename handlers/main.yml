@@ -1,0 +1,6 @@
+---
+
+- name: Restart net_snmp_service
+  service:
+    name: "{{ net_snmp_service }}"
+    state: restarted

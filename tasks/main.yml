@@ -1,0 +1,30 @@
+---
+
+- name: "Include vars/{{ ansible_os_family }}.yml"
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: "Include install-{{ ansible_os_family }}.yml"
+  include: "install-{{ ansible_os_family }}.yml"
+
+- name: "Create {{ net_snmp_config_dir }}"
+  file:
+    path: "{{ net_snmp_config_dir }}"
+    state: directory
+
+- name: "Create {{ net_snmp_config_file }}"
+  template:
+    src: snmpd.conf.j2
+    mode: '0600'
+    dest: "{{ net_snmp_config_file }}"
+  notify:
+    - Restart net_snmp_service
+
+- name: "Create {{ net_snmp_snmp_config_file }}"
+  template:
+    src: snmp.conf.j2
+    dest: "{{ net_snmp_snmp_config_file }}"
+
+- name: Start net_snmp_service
+  service:
+    name: "{{ net_snmp_service }}"
+    state: started

@@ -1,0 +1,7 @@
+---
+__net_snmp_service: snmpd
+__net_snmp_package: snmpd
+__net_snmp_extra_packages:
+  - snmp
+  - snmp-mibs-downloader
+__net_snmp_config_dir: /etc/snmp

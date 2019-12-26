@@ -1,0 +1,11 @@
+---
+
+net_snmp_package: "{{ __net_snmp_package }}"
+net_snmp_service: "{{ __net_snmp_service }}"
+net_snmp_extra_packages: "{{ __net_snmp_extra_packages }}"
+net_snmp_config_dir: "{{ __net_snmp_config_dir }}"
+net_snmp_config_file: "{{ net_snmp_config_dir }}/snmpd.conf"
+net_snmp_config: ""
+net_snmp_snmp_config_file: "{{ net_snmp_config_dir }}/snmp.conf"
+net_snmp_snmp_config: ""
+net_snmp_flags: ""

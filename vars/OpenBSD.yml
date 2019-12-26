@@ -1,0 +1,5 @@
+---
+__net_snmp_service: netsnmpd
+__net_snmp_package: net-snmp
+__net_snmp_extra_packages: []
+__net_snmp_config_dir: /etc/snmp

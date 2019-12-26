@@ -1,0 +1,19 @@
+---
+
+- name: Install net_snmp_extra_packages
+  openbsd_pkg:
+    name: "{{ net_snmp_extra_packages }}"
+    state: present
+
+- name: Install net_snmp_package
+  openbsd_pkg:
+    name: "{{ net_snmp_package }}"
+    state: present
+
+- name: Enable net_snmp_service
+  service:
+    name: "{{ net_snmp_service }}"
+    arguments: "{{ net_snmp_flags }}"
+    enabled: yes
+  notify:
+    - Restart net_snmp_service

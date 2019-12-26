@@ -1,0 +1,42 @@
+---
+- hosts: localhost
+  roles:
+    - ansible-role-net_snmp
+  pre_tasks:
+    - name: Dump all hostvars
+      debug:
+        var: hostvars[inventory_hostname]
+  post_tasks:
+    - name: List all services (systemd)
+      # workaround ansible-lint: [303] service used in place of service module
+      shell: "echo; systemctl list-units --type service"
+      changed_when: false
+      when:
+        # in docker, init is not systemd
+        - ansible_virtualization_type != 'docker'
+        - ansible_os_family == 'RedHat' or ansible_os_family == 'Debian'
+    - name: list all services (FreeBSD service)
+      # workaround ansible-lint: [303] service used in place of service module
+      shell: "echo; service -l"
+      changed_when: false
+      when:
+        - ansible_os_family == 'FreeBSD'
+  vars:
+    os_net_snmp_flags:
+      FreeBSD: |
+        snmpd_flags="-a"
+        snmpd_conffile="{{ net_snmp_config_file }}"
+      OpenBSD: "-u _netsnmp -r -a"
+      Debian: |
+        SNMPDOPTS='-Lsd -Lf /dev/null -u Debian-snmp -g Debian-snmp -I -smux,mteTrigger,mteTriggerConf -p /run/snmpd.pid'
+        SNMPDRUN=yes
+      RedHat: |
+        OPTIONS="-LS0-6d"
+
+    net_snmp_flags: "{{ os_net_snmp_flags[ansible_os_family] }}"
+    net_snmp_config: |
+      syscontact root
+      syslocation "somewhere"
+      rocommunity public
+      mibs :
+    net_snmp_snmp_config: ""
