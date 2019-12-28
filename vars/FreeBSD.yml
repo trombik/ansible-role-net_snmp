@@ -3,3 +3,8 @@ __net_snmp_service: snmpd
 __net_snmp_package: net-mgmt/net-snmp
 __net_snmp_extra_packages: []
 __net_snmp_config_dir: /usr/local/etc/snmp
+__net_snmp_user: root
+__net_snmp_group: wheel
+__net_snmp_snmptrapd_service: snmptrapd
+__net_snmp_snmptrapd_user: root
+__net_snmp_snmptrapd_group: wheel

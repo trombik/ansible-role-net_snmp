@@ -11,12 +11,20 @@
 | `net_snmp_package` | Package name of `net-snmp` | `{{ __net_snmp_package }}` |
 | `net_snmp_service` | Service name of `net-snmp` | `{{ __net_snmp_service }}` |
 | `net_snmp_extra_packages` | A list of extra packages to install | `{{ __net_snmp_extra_packages }}` |
+| `net_snmp_user` | User name of `snmpd` | `{{ __net_snmp_user }}` |
+| `net_snmp_group` | Group name of `snmpd` | `{{ __net_snmp_group }}` |
 | `net_snmp_config_dir` | Path to the configuration directory | `{{ __net_snmp_config_dir }}` |
 | `net_snmp_config_file` | Path to `snmpd.conf` | `{{ net_snmp_config_dir }}/snmpd.conf` |
 | `net_snmp_config` | Content of `snmpd.conf` | `""` |
 | `net_snmp_snmp_config_file` | Path to `snmp.conf` | `{{ net_snmp_config_dir }}/snmp.conf` |
 | `net_snmp_snmp_config` | Content of `snmp.conf` | `""` |
 | `net_snmp_flags` | See below | `""` |
+| `net_snmp_snmptrapd_service` | Service name of `snmptrapd` | `{{ __net_snmp_snmptrapd_service }}` |
+| `net_snmp_snmptrapd_service_enable` | Enable of disable `snmptrapd` | `false` |
+| `net_snmp_snmptrapd_config_file` | Path to `snmptrapd.conf` | `{{ net_snmp_config_dir }}/snmptrapd.conf` |
+| `net_snmp_snmptrapd_config` | Content of `snmptrapd.conf` | `""` |
+| `net_snmp_snmptrapd_user` | User name of `snmptrapd` | `{{ __net_snmp_snmptrapd_user }}` |
+| `net_snmp_snmptrapd_group` | Group name of `snmptrapd` | `{{ __net_snmp_snmptrapd_group }}` |
 
 ## `net_snmp_flags`
 
@@ -34,6 +42,11 @@ passed to `rcctl set netsnmpd`.
 | `__net_snmp_package` | `snmpd` |
 | `__net_snmp_extra_packages` | `["snmp", "snmp-mibs-downloader"]` |
 | `__net_snmp_config_dir` | `/etc/snmp` |
+| `__net_snmp_user` | `_netsnmp` |
+| `__net_snmp_group` | `_netsnmp` |
+| `__net_snmp_snmptrapd_service` | `snmptrapd` |
+| `__net_snmp_snmptrapd_user` | `root` |
+| `__net_snmp_snmptrapd_group` | `root` |
 
 ## FreeBSD
 
@@ -43,6 +56,11 @@ passed to `rcctl set netsnmpd`.
 | `__net_snmp_package` | `net-mgmt/net-snmp` |
 | `__net_snmp_extra_packages` | `[]` |
 | `__net_snmp_config_dir` | `/usr/local/etc/snmp` |
+| `__net_snmp_user` | `root` |
+| `__net_snmp_group` | `wheel` |
+| `__net_snmp_snmptrapd_service` | `snmptrapd` |
+| `__net_snmp_snmptrapd_user` | `root` |
+| `__net_snmp_snmptrapd_group` | `wheel` |
 
 ## OpenBSD
 
@@ -52,6 +70,11 @@ passed to `rcctl set netsnmpd`.
 | `__net_snmp_package` | `net-snmp` |
 | `__net_snmp_extra_packages` | `[]` |
 | `__net_snmp_config_dir` | `/etc/snmp` |
+| `__net_snmp_user` | `_netsnmp` |
+| `__net_snmp_group` | `_netsnmp` |
+| `__net_snmp_snmptrapd_service` | `netsnmptrapd` |
+| `__net_snmp_snmptrapd_user` | `_netsnmp` |
+| `__net_snmp_snmptrapd_group` | `_netsnmp` |
 
 ## RedHat
 
@@ -61,6 +84,11 @@ passed to `rcctl set netsnmpd`.
 | `__net_snmp_package` | `net-snmp` |
 | `__net_snmp_extra_packages` | `["net-snmp-utils"]` |
 | `__net_snmp_config_dir` | `/etc/snmp` |
+| `__net_snmp_user` | `_netsnmp` |
+| `__net_snmp_group` | `_netsnmp` |
+| `__net_snmp_snmptrapd_service` | `snmptrapd` |
+| `__net_snmp_snmptrapd_user` | `root` |
+| `__net_snmp_snmptrapd_group` | `root` |
 
 # Dependencies
 

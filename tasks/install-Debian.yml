@@ -10,6 +10,13 @@
     name: "{{ net_snmp_package }}"
     state: present
 
+- name: Enable net_snmp_snmptrapd_service
+  service:
+    name: "{{ net_snmp_snmptrapd_service }}"
+    enabled: yes
+  when:
+    - net_snmp_snmptrapd_service_enable
+
 - name: Enable net_snmp_service
   service:
     name: "{{ net_snmp_service }}"

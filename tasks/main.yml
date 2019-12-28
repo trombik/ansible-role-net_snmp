@@ -14,15 +14,36 @@
 - name: "Create {{ net_snmp_config_file }}"
   template:
     src: snmpd.conf.j2
+    owner: "{{ net_snmp_user }}"
+    group: "{{ net_snmp_group }}"
     mode: '0600'
     dest: "{{ net_snmp_config_file }}"
   notify:
     - Restart net_snmp_service
 
+- name: "Create {{ net_snmp_snmptrapd_config_file }}"
+  template:
+    src: snmptrapd.conf.j2
+    owner: "{{ net_snmp_snmptrapd_user }}"
+    group: "{{ net_snmp_snmptrapd_group }}"
+    mode: '0600'
+    dest: "{{ net_snmp_snmptrapd_config_file }}"
+  when:
+    - net_snmp_snmptrapd_service_enable
+  notify:
+    - Restart net_snmp_snmptrapd_service
+
 - name: "Create {{ net_snmp_snmp_config_file }}"
   template:
     src: snmp.conf.j2
     dest: "{{ net_snmp_snmp_config_file }}"
+
+- name: Start net_snmp_snmptrapd_service
+  service:
+    name: "{{ net_snmp_snmptrapd_service }}"
+    state: started
+  when:
+    - net_snmp_snmptrapd_service_enable
 
 - name: Start net_snmp_service
   service:

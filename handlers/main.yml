@@ -4,3 +4,8 @@
   service:
     name: "{{ net_snmp_service }}"
     state: restarted
+
+- name: Restart net_snmp_snmptrapd_service
+  service:
+    name: "{{ net_snmp_snmptrapd_service }}"
+    state: restarted
