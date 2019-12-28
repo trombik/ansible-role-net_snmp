@@ -39,6 +39,8 @@ when "redhat"
   package = "net-snmp"
   extra_packages = ["net-snmp-utils"]
   default_group = "root"
+  snmptrapd_group default_group
+  snmpd_group = default_group
 end
 
 config = "#{config_dir}/snmpd.conf"
