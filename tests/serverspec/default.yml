@@ -29,7 +29,8 @@
         - snmp
         - snmp-mibs-downloader
         - snmptrapd
-      RedHat: []
+      RedHat:
+        - net-snmp-utils
     net_snmp_extra_packages: "{{ os_net_snmp_extra_packages[ansible_os_family] }}"
     os_net_snmp_flags:
       FreeBSD: |
