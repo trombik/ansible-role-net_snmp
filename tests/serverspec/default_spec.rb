@@ -3,17 +3,27 @@ require "serverspec"
 
 package = ""
 service = "snmpd"
+snmptrapd_service = "snmptrapd"
 config_dir = "/etc/snmp"
 config_mode = 600
 default_user = "root"
 default_group = "wheel"
 ports = [161]
 extra_packages = []
+snmpd_user = default_user
+snmpd_group = default_group
+snmptrapd_user = default_user
+snmptrapd_group = default_group
 
 case os[:family]
 when "openbsd"
   service = "netsnmpd"
+  snmptrapd_service = "netsnmptrapd"
   package = "net-snmp"
+  snmpd_user = "_netsnmp"
+  snmpd_group = "_netsnmp"
+  snmptrapd_user = default_user
+  snmptrapd_group = default_group
 when "freebsd"
   config_dir = "/usr/local/etc/snmp"
   package = "net-mgmt/net-snmp"
@@ -21,7 +31,10 @@ when "ubuntu"
   service = "snmpd"
   package = "snmpd"
   default_group = "root"
+  snmpd_group = default_group
   extra_packages = ["snmp", "snmp-mibs-downloader"]
+  snmptrapd_user = snmpd_user
+  snmptrapd_group = snmpd_group
 when "redhat"
   package = "net-snmp"
   extra_packages = ["net-snmp-utils"]
@@ -29,6 +42,7 @@ when "redhat"
 end
 
 config = "#{config_dir}/snmpd.conf"
+snmptrapd_config = "#{config_dir}/snmptrapd.conf"
 snmp_config = "#{config_dir}/snmp.conf"
 
 describe package(package) do
@@ -53,8 +67,8 @@ describe file(config) do
   it { should exist }
   it { should be_file }
   it { should be_mode config_mode }
-  it { should be_owned_by default_user }
-  it { should be_grouped_into default_group }
+  it { should be_owned_by snmpd_user }
+  it { should be_grouped_into snmpd_group }
   its(:content) { should match(/Managed by ansible/) }
   its(:content) { should match(/syscontact root/) }
 end
@@ -66,6 +80,16 @@ describe file(snmp_config) do
   it { should be_owned_by default_user }
   it { should be_grouped_into default_group }
   its(:content) { should match(/Managed by ansible/) }
+end
+
+describe file(snmptrapd_config) do
+  it { should exist }
+  it { should be_file }
+  it { should be_mode 600 }
+  it { should be_owned_by snmptrapd_user }
+  it { should be_grouped_into snmptrapd_group }
+  its(:content) { should match(/Managed by ansible/) }
+  its(:content) { should match(/disableAuthorization yes/) }
 end
 
 case os[:family]
@@ -110,6 +134,11 @@ when "freebsd"
     it { should be_grouped_into default_group }
     its(:content) { should match(/Managed by ansible/) }
   end
+end
+
+describe service(snmptrapd_service) do
+  it { should be_running }
+  it { should be_enabled }
 end
 
 describe service(service) do
