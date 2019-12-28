@@ -22,8 +22,8 @@ when "openbsd"
   package = "net-snmp"
   snmpd_user = "_netsnmp"
   snmpd_group = "_netsnmp"
-  snmptrapd_user = default_user
-  snmptrapd_group = default_group
+  snmptrapd_user = snmpd_user
+  snmptrapd_group = snmpd_group
 when "freebsd"
   config_dir = "/usr/local/etc/snmp"
   package = "net-mgmt/net-snmp"

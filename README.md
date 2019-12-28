@@ -119,6 +119,16 @@ passed to `rcctl set netsnmpd`.
       when:
         - ansible_os_family == 'FreeBSD'
   vars:
+    os_net_snmp_extra_packages:
+      FreeBSD: []
+      OpenBSD: []
+      Debian:
+        - snmp
+        - snmp-mibs-downloader
+        - snmptrapd
+      RedHat:
+        - net-snmp-utils
+    net_snmp_extra_packages: "{{ os_net_snmp_extra_packages[ansible_os_family] }}"
     os_net_snmp_flags:
       FreeBSD: |
         snmpd_flags="-a"
@@ -137,6 +147,10 @@ passed to `rcctl set netsnmpd`.
       rocommunity public
       mibs :
     net_snmp_snmp_config: ""
+
+    net_snmp_snmptrapd_service_enable: yes
+    net_snmp_snmptrapd_config: |
+      disableAuthorization yes
 ```
 
 # License
