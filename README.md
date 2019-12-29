@@ -2,6 +2,12 @@
 
 `ansible` role for `net-snmp`.
 
+## Notes for Ubuntu users
+
+The startup script of `snmptrapd` does not read `/etc/default/snmptrapd`. As
+such, `net_snmp_snmptrapd_flags` must be zero length in size (`""`). The role
+raises an error otherwise.
+
 # Requirements
 
 # Role Variables
@@ -25,6 +31,7 @@
 | `net_snmp_snmptrapd_config` | Content of `snmptrapd.conf` | `""` |
 | `net_snmp_snmptrapd_user` | User name of `snmptrapd` | `{{ __net_snmp_snmptrapd_user }}` |
 | `net_snmp_snmptrapd_group` | Group name of `snmptrapd` | `{{ __net_snmp_snmptrapd_group }}` |
+| `net_snmp_snmptrapd_flags` | Same as in `net_snmp_flags`. See `net_snmp_flags`.| `""` |
 
 ## `net_snmp_flags`
 
@@ -151,6 +158,15 @@ passed to `rcctl set netsnmpd`.
     net_snmp_snmptrapd_service_enable: yes
     net_snmp_snmptrapd_config: |
       disableAuthorization yes
+    os_net_snmp_snmptrapd_flags:
+      FreeBSD: |
+        snmptrapd_flags="-p /var/run/snmptrapd.pid -Ls daemon"
+      OpenBSD: "-Ls daemon"
+      # XXX net_snmp_snmptrapd_flags is not supported on Ubuntu
+      Debian: ""
+      RedHat: |
+        OPTIONS="-Ls daemon"
+    net_snmp_snmptrapd_flags: "{{ os_net_snmp_snmptrapd_flags[ansible_os_family] }}"
 ```
 
 # License

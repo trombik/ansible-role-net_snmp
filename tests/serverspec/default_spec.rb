@@ -14,6 +14,7 @@ snmpd_user = default_user
 snmpd_group = default_group
 snmptrapd_user = default_user
 snmptrapd_group = default_group
+snmptrapd_service = "snmptrapd"
 
 case os[:family]
 when "openbsd"
@@ -39,7 +40,7 @@ when "redhat"
   package = "net-snmp"
   extra_packages = ["net-snmp-utils"]
   default_group = "root"
-  snmptrapd_group default_group
+  snmptrapd_group = default_group
   snmpd_group = default_group
 end
 
@@ -102,6 +103,7 @@ when "openbsd"
     it { should be_grouped_into default_group }
     it { should be_mode 644 }
     its(:content) { should match(/^#{Regexp.escape("#{service}_flags=-u _netsnmp -r -a")}/) }
+    its(:content) { should match(/^#{Regexp.escape("#{snmptrapd_service}_flags=-Ls daemon")}/) }
   end
 when "redhat"
   describe file("/etc/sysconfig/#{service}") do
@@ -111,6 +113,15 @@ when "redhat"
     it { should be_grouped_into default_group }
     its(:content) { should match(/Managed by ansible/) }
     its(:content) { should match(/OPTIONS="-LS0-6d"/) }
+  end
+
+  describe file("/etc/sysconfig/#{snmptrapd_service}") do
+    it { should be_file }
+    it { should be_mode 644 }
+    it { should be_owned_by default_user }
+    it { should be_grouped_into default_group }
+    its(:content) { should match(/Managed by ansible/) }
+    its(:content) { should match(/OPTIONS="-Ls daemon"/) }
   end
 when "ubuntu"
   describe file("/etc/default/#{service}") do
@@ -135,6 +146,15 @@ when "freebsd"
     it { should be_owned_by default_user }
     it { should be_grouped_into default_group }
     its(:content) { should match(/Managed by ansible/) }
+  end
+
+  describe file("/etc/rc.conf.d/#{snmptrapd_service}") do
+    it { should be_file }
+    it { should be_mode 644 }
+    it { should be_owned_by default_user }
+    it { should be_grouped_into default_group }
+    its(:content) { should match(/Managed by ansible/) }
+    its(:content) { should match(Regexp.escape('snmptrapd_flags="-p /var/run/snmptrapd.pid -Ls daemon"')) }
   end
 end
 

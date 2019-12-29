@@ -32,3 +32,12 @@
     validate: sh -n %s
   notify:
     - Restart net_snmp_service
+
+- name: Assert net_snmp_snmptrapd_service has zero length
+  # XXX the startup script of snmptrapd on Ubuntu does not read
+  # /etc/default/snmptrapd (/lib/systemd/system/snmptrapd.service).
+  # snmptrapd 5.7.3+dfsg-1.8ubuntu3.3
+  assert:
+    that:
+      - net_snmp_snmptrapd_flags | length == 0
+    fail_msg: "net_snmp_snmptrapd_flags is not supported on Debian/Ubuntu"
