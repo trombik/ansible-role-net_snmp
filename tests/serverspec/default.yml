@@ -54,3 +54,12 @@
     net_snmp_snmptrapd_service_enable: yes
     net_snmp_snmptrapd_config: |
       disableAuthorization yes
+    os_net_snmp_snmptrapd_flags:
+      FreeBSD: |
+        snmptrapd_flags="-p /var/run/snmptrapd.pid -Ls daemon"
+      OpenBSD: "-Ls daemon"
+      # XXX net_snmp_snmptrapd_flags is not supported on Ubuntu
+      Debian: ""
+      RedHat: |
+        OPTIONS="-Ls daemon"
+    net_snmp_snmptrapd_flags: "{{ os_net_snmp_snmptrapd_flags[ansible_os_family] }}"

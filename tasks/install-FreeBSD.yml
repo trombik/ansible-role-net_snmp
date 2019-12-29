@@ -30,3 +30,14 @@
     validate: sh -n %s
   notify:
     - Restart net_snmp_service
+
+- name: "Create /etc/rc.conf.d/{{ net_snmp_snmptrapd_service }}"
+  template:
+    src: FreeBSD.rcd.snmptrapd.j2
+    dest: "/etc/rc.conf.d/{{ net_snmp_snmptrapd_service }}"
+    mode: 0644
+    validate: sh -n %s
+  notify:
+    - Restart net_snmp_snmptrapd_service
+  when:
+    - net_snmp_snmptrapd_service_enable

@@ -13,6 +13,7 @@
 - name: Enable net_snmp_snmptrapd_service
   service:
     name: "{{ net_snmp_snmptrapd_service }}"
+    arguments: "{{ net_snmp_snmptrapd_flags }}"
     enabled: yes
   when:
     - net_snmp_snmptrapd_service_enable
