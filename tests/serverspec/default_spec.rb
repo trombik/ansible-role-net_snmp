@@ -124,13 +124,13 @@ when "redhat"
     its(:content) { should match(/OPTIONS="-Ls daemon"/) }
   end
 when "ubuntu"
-  describe file("/etc/default/#{service}") do
+  describe file("/etc/systemd/system/snmpd.service.d/local.conf") do
     it { should be_file }
     it { should be_mode 644 }
     it { should be_owned_by default_user }
     it { should be_grouped_into default_group }
     its(:content) { should match(/Managed by ansible/) }
-    its(:content) { should match(/SNMPDRUN=yes/) }
+    its(:content) { should match(/#{Regexp.escape("MIBSDIR=/usr/share/snmp/mibs:/usr/share/snmp/mibs/iana:/usr/share/snmp/mibs/ietf:/usr/share/mibs/site:/usr/share/snmp/mibs:/usr/share/mibs/iana:/usr/share/mibs/ietf:/usr/share/mibs/netsnmp")}/) }
   end
 when "freebsd"
   describe file("/etc/rc.conf.d") do
