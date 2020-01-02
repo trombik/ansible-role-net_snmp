@@ -38,8 +38,8 @@
         snmpd_conffile="{{ net_snmp_config_file }}"
       OpenBSD: "-u _netsnmp -r -a"
       Debian: |
-        SNMPDOPTS='-Lsd -Lf /dev/null -u Debian-snmp -g Debian-snmp -I -smux,mteTrigger,mteTriggerConf -p /run/snmpd.pid'
-        SNMPDRUN=yes
+        MIBSDIR=/usr/share/snmp/mibs:/usr/share/snmp/mibs/iana:/usr/share/snmp/mibs/ietf:/usr/share/mibs/site:/usr/share/snmp/mibs:/usr/share/mibs/iana:/usr/share/mibs/ietf:/usr/share/mibs/netsnmp
+        MIBS=""
       RedHat: |
         OPTIONS="-LS0-6d"
 

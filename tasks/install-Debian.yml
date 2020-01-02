@@ -22,10 +22,15 @@
     name: "{{ net_snmp_service }}"
     enabled: yes
 
-- name: "Create /etc/default/{{ net_snmp_service }}"
+- name: Create /etc/systemd/system/snmpd.service.d
+  file:
+    state: directory
+    mode: '0755'
+
+- name: Create /etc/systemd/system/snmpd.service.d/local.conf
   template:
     src: Debian.default.j2
-    dest: "/etc/default/{{ net_snmp_service }}"
+    dest: "/etc/systemd/system/snmpd.service.d/local.conf"
     mode: 0644
     # keep the original copy in case you need the defaults in it
     backup: yes

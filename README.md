@@ -36,10 +36,11 @@ raises an error otherwise.
 ## `net_snmp_flags`
 
 This variable is used for overriding defaults for startup scripts. In Debian
-variants, the value is the content of `/etc/default/net_snmp`. In RedHat
-variants, it is the content of `/etc/sysconfig/net_snmp`. In FreeBSD, it
-is the content of `/etc/rc.conf.d/net_snmp`. In OpenBSD, the value is
-passed to `rcctl set netsnmpd`.
+variants, the value is the content of
+`/etc/systemd/system/snmpd.service.d/local.conf`. In RedHat variants, it is
+the content of `/etc/sysconfig/net_snmp`. In FreeBSD, it is the content of
+`/etc/rc.conf.d/net_snmp`. In OpenBSD, the value is passed to `rcctl set
+netsnmpd`.
 
 ## Debian
 
