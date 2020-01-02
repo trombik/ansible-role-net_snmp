@@ -24,6 +24,7 @@
 
 - name: Create /etc/systemd/system/snmpd.service.d
   file:
+    path: /etc/systemd/system/snmpd.service.d
     state: directory
     mode: '0755'
 
